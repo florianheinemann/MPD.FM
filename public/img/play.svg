@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="377px" height="377px" viewBox="0 0 377 377" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Untitled</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#000000" stroke-width="15" cx="188.5" cy="188.5" r="180.5"></circle>
+        <polygon id="Triangle" stroke="#000000" stroke-width="15" fill="#000000" stroke-linejoin="round" transform="translate(205.090909, 188.500000) rotate(90.000000) translate(-205.090909, -188.500000) " points="205.090909 148 299.181818 229 111 229"></polygon>
+    </g>
+</svg>

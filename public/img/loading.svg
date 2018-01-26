@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="377px" height="377px" viewBox="0 0 377 377" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Untitled</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Loading" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M188.5,369 C288.187397,369 369,288.187397 369,188.5 C369,88.8126027 288.187397,8 188.5,8 C88.8126027,8 8,88.8126027 8,188.5" id="Oval" stroke="#000000" stroke-width="15"></path>
+        <circle id="Oval" stroke="#000000" stroke-width="15" stroke-linecap="round" stroke-dasharray="29" cx="188.5" cy="188.5" r="180.5"></circle>
+    </g>
+</svg>

@@ -1,0 +1,94 @@
+.station-logo {
+    position:relative;
+    overflow:hidden;
+    padding-bottom:100%;
+    border: 1px solid rgb(201, 201, 201);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    background-color: white;
+}
+
+.blank-radio {
+   visibility: hidden;
+}
+
+.station-logo img {
+    position:absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 90%;
+    padding: 5%;
+}
+
+.active-station {
+    opacity: 0.5;
+}
+
+.play-button {
+    opacity: 0.8;
+}
+
+.station-text {
+    display: flex;
+}
+
+.station-text-inside {
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+.station-text-inside > p {
+    margin: 0;
+}
+
+.station-heading {
+    font-weight: 500;
+}
+
+.sep-line {
+    margin: 5px 0px;
+    height: 1px;
+    border: medium none;
+    background-color: rgb(201, 201, 201);
+}
+
+.player {
+    background-color: black;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+.player-content {
+    max-width: 768px;
+    margin: 5px auto;
+}
+
+.content {
+    margin: 5px auto;
+    padding-left: 1em;
+    padding-right: 1em;
+    max-width: 768px;
+}
+
+.pure-g > div {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.l-box {
+    padding: 0.5em;
+}
+
+html, button, input, select, textarea,
+.pure-g [class *= "pure-u"] {
+    /* color: #777; */
+    font-size: 0.9em;
+    line-height: 1.5;
+    font-family: 'Oswald', sans-serif;
+}
