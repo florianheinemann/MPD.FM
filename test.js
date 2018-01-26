@@ -9,6 +9,19 @@ client.on('ready', function() {
   client.sendCommand(cmd("playlistinfo", []), function(err, msg) {
     if (err) throw err;
     msg = mpd.parseArrayMessage(msg);
+    console.log('playlist');
+    console.log(msg);
+  });
+  client.sendCommand(cmd("currentsong", []), function(err, msg) {
+    if (err) throw err;
+    msg = mpd.parseArrayMessage(msg);
+    console.log('currentsong');
+    console.log(msg);
+  });
+  client.sendCommands([ cmd("currentsong", []), cmd("status", []) ] , function(err, msg) {
+    if (err) throw err;
+    msg = mpd.parseKeyValueMessage(msg);
+    console.log('all');
     console.log(msg);
   });
 });

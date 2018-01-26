@@ -8,7 +8,8 @@ var app = require('../app');
 var debug = require('debug')('mpd.fm:server');
 var http = require('http');
 const WebSocket = require('ws');
-var wsApp = require('../wss/wss.js');
+var wsApp = require('../controller/wss.js');
+var mpdClient = require('../controller/mpdclient.js');
 
 /**
  * Get port from environment and store in Express.
@@ -25,10 +26,16 @@ var server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 /**
+ * Set up MPD client
+ */
+mpdClient.setup({port: 6600, host: 'localhost' })
+
+/**
  * Set up Websocket interactions
  */
 
 wsApp.init(wss);
+
 
 /**
  * Listen on provided port, on all network interfaces.
