@@ -9,157 +9,73 @@
         <link rel="manifest" href="site.webmanifest">
         <link rel="apple-touch-icon" href="icon.png">
 
-
         <link href="https://fonts.googleapis.com/css?family=Oswald:400,500&amp;subset=latin-ext" rel="stylesheet">
 
         <link rel="stylesheet" href="css/pure-min.css">
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <!--[if lte IE 9]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-        <![endif]-->
-        
-        <div class="content">
+        <div id="app">
+            <!--[if lte IE 9]>
+                <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+            <![endif]-->
+            
+            <div class="content">
 
-            <div class="pure-g">
-                <div class="pure-u-1-4 l-box">
-                    <div class="station-logo">
-                        <img class="pure-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png" alt="Byte.FM">
+                <radio-station 
+                    inline-template
+                    v-for="item in stationList"
+                    v-bind:station="item"
+                    v-bind:key="item.id">
+                    <div class="pure-g">
+                        <div class="pure-u-1-4 l-box">
+                            <div class="station-logo">
+                                <img class="pure-img" v-bind:src="item.logo" v-bind:alt="item.station">
+                            </div>
+                        </div>
+                        <div class="pure-u-3-4 l-box station-text">
+                            <div class="station-text-inside">
+                                <p class="station-heading">{{ item.station }}</p>
+                                <p>{{ item.desc }}</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="pure-u-3-4 l-box station-text">
-                    <div class="station-text-inside">
-                        <p class="station-heading">Byte.FM</p>
-                        <p>ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream</p>
-                    </div>
-                </div>
-            </div>
-            <hr class="sep-line">
+                    <hr class="sep-line">
+                </radio-station>
 
-            <div class="pure-g">
-                <div class="pure-u-1-4 l-box">
-                    <div class="station-logo">
-                        <img class="pure-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png" alt="Byte.FM">
-                    </div>
-                </div>
-                <div class="pure-u-3-4 l-box station-text">
-                    <div class="station-text-inside">
-                        <p class="station-heading">Byte.FM</p>
-                        <p>ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream</p>
-                    </div>
-                </div>
-            </div>
-            <hr class="sep-line">
-
-            <div class="pure-g">
-                <div class="pure-u-1-4 l-box">
-                    <div class="station-logo">
-                        <img class="pure-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png" alt="Byte.FM">
-                    </div>
-                </div>
-                <div class="pure-u-3-4 l-box station-text">
-                    <div class="station-text-inside">
-                        <p class="station-heading">Byte.FM</p>
-                        <p>ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream</p>
-                    </div>
-                </div>
-            </div>
-            <hr class="sep-line">
-
-            <div class="pure-g">
-                <div class="pure-u-1-4 l-box">
-                    <div class="station-logo">
-                        <img class="pure-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png" alt="Byte.FM">
-                    </div>
-                </div>
-                <div class="pure-u-3-4 l-box station-text">
-                    <div class="station-text-inside">
-                        <p class="station-heading">Byte.FM</p>
-                        <p>ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream</p>
-                    </div>
-                </div>
-            </div>
-            <hr class="sep-line">
-
-            <div class="pure-g">
-                <div class="pure-u-1-4 l-box">
-                    <div class="station-logo">
-                        <img class="pure-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png" alt="Byte.FM">
-                    </div>
-                </div>
-                <div class="pure-u-3-4 l-box station-text">
-                    <div class="station-text-inside">
-                        <p class="station-heading">Byte.FM</p>
-                        <p>ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream</p>
-                    </div>
-                </div>
-            </div>
-            <hr class="sep-line">
-
-            <div class="pure-g">
-                <div class="pure-u-1-4 l-box">
-                    <div class="station-logo">
-                        <img class="pure-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png" alt="Byte.FM">
-                    </div>
-                </div>
-                <div class="pure-u-3-4 l-box station-text">
-                    <div class="station-text-inside">
-                        <p class="station-heading">Byte.FM</p>
-                        <p>ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream</p>
-                    </div>
-                </div>
-            </div>
-            <hr class="sep-line">
-
-            <div class="pure-g">
-                <div class="pure-u-1-4 l-box">
-                    <div class="station-logo">
-                        <img class="pure-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png" alt="Byte.FM">
-                    </div>
-                </div>
-                <div class="pure-u-3-4 l-box station-text">
-                    <div class="station-text-inside">
-                        <p class="station-heading">Byte.FM</p>
-                        <p>ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream</p>
-                    </div>
-                </div>
-            </div>
-            <hr class="sep-line blank-radio">
-
-            <div class="pure-g blank-radio">
-                <div class="pure-u-1-4 l-box">
-                    <div class="station-logo">
-                        <img class="pure-img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
-                    </div>
-                </div>
-                <div class="pure-u-3-4 l-box">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="player">
-            <div class="pure-g player-content">
+                <div class="pure-g blank-radio">
                     <div class="pure-u-1-4 l-box">
                         <div class="station-logo">
-                            <img class="pure-img active-station" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png" alt="Byte.FM">
-                            <img class="pure-img play-button" src="img/play.svg" alt="Play">
+                            <img class="pure-img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
                         </div>
                     </div>
-                    <div class="pure-u-3-4 l-box station-text">
-                        <div class="station-text-inside">
-                            <p class="station-heading">Byte.FM</p>
-                            <p>ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream</p>
-                        </div>
+                    <div class="pure-u-3-4 l-box">
                     </div>
+                </div>
+
             </div>
+
+            <div class="player">
+                <div class="pure-g player-content">
+                        <div class="pure-u-1-4 l-box">
+                            <div class="station-logo">
+                                <img class="pure-img active-station" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png" alt="Byte.FM">
+                                <img class="pure-img play-button" src="img/play.svg" alt="Play">
+                            </div>
+                        </div>
+                        <div class="pure-u-3-4 l-box station-text">
+                            <div class="station-text-inside">
+                                <p class="station-heading">Byte.FM</p>
+                                <p>ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream</p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            
+            <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+            <script src="js/plugins.js"></script>
+            <script src="js/vendor/ReconnectingWebSocket.js"></script>
+            <script src="js/main.js"></script>
         </div>
-        
-        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
-        <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
     </body>
 </html>

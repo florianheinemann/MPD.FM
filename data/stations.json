@@ -1,0 +1,13 @@
+[
+    {   "id": 0, 
+        "station": "ByteFM",
+        "desc": "ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png",
+        "stream": "https://bytefm.sslcast.addradio.de/bytefm/main/mid/stream.mp3" },
+
+        {   "id": 1, 
+            "station": "ByteFM",
+            "desc": "ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png",
+            "stream": "https://bytefm.sslcast.addradio.de/bytefm/main/mid/stream.mp3" }
+]

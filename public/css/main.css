@@ -52,6 +52,10 @@
     background-color: rgb(201, 201, 201);
 }
 
+.sep-line:last-of-type {
+    visibility: hidden;
+}
+
 .player {
     background-color: black;
     color: white;
