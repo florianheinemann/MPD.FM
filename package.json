@@ -4,6 +4,7 @@
   "description": "A MPD web server and client to listen to your favorite online radio stations",
   "main": "index.js",
   "scripts": {
+    "start": "node ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,5 +21,13 @@
   "bugs": {
     "url": "https://github.com/florianheinemann/MPD.FM/issues"
   },
-  "homepage": "https://github.com/florianheinemann/MPD.FM#readme"
+  "homepage": "https://github.com/florianheinemann/MPD.FM#readme",
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "morgan": "~1.9.0",
+    "serve-favicon": "~2.4.5"
+  }
 }
