@@ -64,8 +64,12 @@
 
                                 <img v-if="status==='playing'" class="pure-img play-button" src="img/pause.svg" alt="Pause">
                                 <img v-else-if="status==='stopped'" class="pure-img play-button" src="img/play.svg" alt="Play">
-                                <div v-else class="pure-img play-button button-loading" src="img/loading.svg" alt="Loading">
-                                    <img style="width: 50%" src="img/loading.svg" alt="Loading">
+                                <div v-else class="play-button spinner-frame" style="width: 100%">
+                                    <div class="spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
