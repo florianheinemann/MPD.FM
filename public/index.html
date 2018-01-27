@@ -63,7 +63,7 @@
                                 <img class="pure-img active-station" v-bind:src="!currentStation ? 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' : currentStation.logo" v-bind:alt="!currentStation ? '' : currentStation.station">
 
                                 <img v-if="status==='playing'" class="pure-img play-button" src="img/pause.svg" alt="Pause">
-                                <img v-else-if="status==='stopped'" class="pure-img play-button" src="img/play.svg" alt="Play">
+                                <img v-else-if="status==='stopped' || status==='paused'" class="pure-img play-button" src="img/play.svg" alt="Play">
                                 <div v-else class="play-button spinner-frame" style="width: 100%">
                                     <div class="spinner">
                                         <div class="bounce1"></div>
@@ -75,8 +75,8 @@
                         </div>
                         <div class="pure-u-3-4 l-box station-text">
                             <div class="station-text-inside">
-                                <p class="station-heading">0:00</p>
-                                <p>Select a station</p>
+                                <p class="station-heading">{{ elapsed }}</p>
+                                <p>{{ song }}</p>
                             </div>
                         </div>
                 </div>

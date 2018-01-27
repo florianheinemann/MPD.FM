@@ -5,6 +5,7 @@ var debug = require('debug')('mpd.fm:wss');
 const WebSocket = require('ws');
 
 function sendWSSMessage(client, type, data, showDebug = true) {
+    data = objectToLowerCase(data);
     showDebug && debug('Send: ' + type + ' with %o', data);
     var msg = {
         type: type,
@@ -14,12 +15,27 @@ function sendWSSMessage(client, type, data, showDebug = true) {
 }
 
 function broadcastMessage(server, type, data) {
+    data = objectToLowerCase(data);
     debug('Broadcast: ' + type + ' with %o', data);
     server.clients.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN) {
             sendWSSMessage(client, type, data, false);
         }
     });
+}
+
+function objectToLowerCase(data) {
+    if(Array.isArray(data)) {
+        return data.map(value => objectToLowerCase(value));
+    } else if(typeof data === 'object') {
+        var retData = {};
+        for (const [key, value] of Object.entries(data)) {
+            retData[key.toLowerCase()] = objectToLowerCase(value);
+        }
+        return retData;
+    } else {
+        return data;
+    }
 }
 
 module.exports = {
