@@ -12,10 +12,12 @@
    visibility: hidden;
 }
 
-.station-logo img {
+.station-logo > img, .station-logo > div {
     position:absolute;
     top: 50%;
     transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
     max-width: 90%;
     padding: 5%;
 }
@@ -27,6 +29,23 @@
 .play-button {
     opacity: 0.8;
 }
+
+.button-loading {
+    -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+    animation: sk-scaleout 1.0s infinite ease-in-out;
+}
+@-webkit-keyframes sk-scaleout {
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes sk-scaleout {
+100% {
+
+      opacity: 0;
+    }
+  }
 
 .station-text {
     display: flex;

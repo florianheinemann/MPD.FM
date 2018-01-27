@@ -8,12 +8,13 @@ Vue.component('radio-station', {
 var app = new Vue({
     el: '#app',
     data: {
-        stationList: [ ]
+        stationList: [ ],
+        status: 'loading', // playing, stopped
+        elapsed: '0:00',
+        currentStation: null
     },
     created: function () {
         connectWSS();
-
-    //   this.stationList.push( { });
     }
 })
 
@@ -24,6 +25,7 @@ function connectWSS() {
 
     socket.onopen = function () {
         sendWSSMessage('REQUEST_STATION_LIST', null);
+        sendWSSMessage('REQUEST_STATUS', null);
     };
 
     socket.onmessage = function (message) {
@@ -31,6 +33,9 @@ function connectWSS() {
         switch(msg.type) {
             case "STATION_LIST":
                 app.stationList = msg.data;
+                break;
+            case "STATUS":
+                // app.stationList = msg.data;
                 break;
         }
     };

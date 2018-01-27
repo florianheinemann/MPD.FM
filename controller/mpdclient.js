@@ -6,7 +6,7 @@ var debug = require('debug')('mpd.fm:mpdclient');
 // Private
 var mpdClient = null;
 var mpdOptions = null;
-var Status = Object.freeze({"disconnected":1, "connecting":2, "ready":3})
+var Status = Object.freeze({"disconnected":1, "connecting":2, "reconnecting":3, "ready":4})
 var mpdStatus = Status.disconnected;
 var updateClients = [];
 
@@ -22,7 +22,7 @@ function connect() {
     mpdClient = mpd.connect(mpdOptions);
 
     mpdClient.on('ready', function() {
-        debug('Ready');
+        console.log('MPD client ready');
 
         mpdStatus = Status.ready;
         mpdClient.on('system', function(name) {
@@ -43,17 +43,19 @@ function connect() {
     });
 
     mpdClient.on('error', function(err) {
-        console.Error('Socket error: ' + err);
+        console.error('MPD client socket error: ' + err);
         retryConnect();
     });
 }
 
 function retryConnect() {
+    if(mpdStatus === Status.reconnecting)
+        return;
     mpdClient = null;
-    mpdStatus = connecting;
+    mpdStatus = Status.reconnecting;
     setTimeout(() => {
         connect();
-    }, 1000);
+    }, 3000);
 }
 
 function sendStatusRequest(callback) {
