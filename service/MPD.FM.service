@@ -1,0 +1,16 @@
+[Unit]
+Description=MPD.FM
+After=mpd.service
+
+[Service]
+ExecStart=/usr/bin/node /home/srv-mpd-fm/MPD.FM/bin/www
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=mpd-fm
+User=srv-mpd-fm
+Group=srv-mpd-fm
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
