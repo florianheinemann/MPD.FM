@@ -28,7 +28,9 @@ const wss = new WebSocket.Server({ server });
 /**
  * Set up MPD client
  */
-mpdClient.setup({port: 6600, host: 'localhost' })
+var mpd_port = parseInt(process.env.MPD_PORT) || 6600;
+var mpd_host = process.env.MPD_HOST || 'localhost';
+mpdClient.setup({port: mpd_port, host: mpd_host });
 
 /**
  * Set up Websocket interactions

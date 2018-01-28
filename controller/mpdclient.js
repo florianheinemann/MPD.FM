@@ -23,7 +23,7 @@ function connect() {
     mpdClient = mpd.connect(mpdOptions);
 
     mpdClient.on('ready', function() {
-        console.log('MPD client ready');
+        console.log('MPD client ready and connected to ' + mpdOptions.host + ':' + mpdOptions.port);
 
         mpdStatus = Status.ready;
         mpdClient.on('system', function(name) {
