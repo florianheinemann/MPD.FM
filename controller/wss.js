@@ -44,19 +44,52 @@ module.exports = {
             ws.on('message', function incoming(message) {
 
                 var msg = JSON.parse(message);
+                debug('Received %s with %o', msg.type, msg.data);
                 switch(msg.type) {
                     case "REQUEST_STATION_LIST":
-                        debug('Received REQUEST_STATION_LIST');
                         sendWSSMessage(ws, 'STATION_LIST', stationList);
                         break;
 
                     case "REQUEST_STATUS":
-                        debug('Received REQUEST_STATUS');
                         mpdClient.getMpdStatus(function(err, status) {
                             if(err) {
                                 sendWSSMessage(ws, 'MPD_OFFLINE', status);
                             } else {
                                 sendWSSMessage(ws, 'STATUS', status);
+                            }
+                        });
+                        break;
+
+                    case "REQUEST_ELAPSED":
+                        mpdClient.getElapsed(function(err, status) {
+                            if(err) {
+                                sendWSSMessage(ws, 'MPD_OFFLINE', status);
+                            } else {
+                                sendWSSMessage(ws, 'ELAPSED', status);
+                            }
+                        });
+                        break;
+
+                    case "PLAY":
+                        if(msg.data && msg.data.stream) {
+                            mpdClient.playStation(msg.data.stream, function(err) {
+                                if(err) {
+                                    sendWSSMessage(ws, 'MPD_OFFLINE', status);
+                                }
+                            });
+                        } else {
+                            mpdClient.play(function(err) {
+                                if(err) {
+                                    sendWSSMessage(ws, 'MPD_OFFLINE', status);
+                                }
+                            });
+                        }
+                        break;
+
+                    case "PAUSE":
+                        mpdClient.pause(function(err) {
+                            if(err) {
+                                sendWSSMessage(ws, 'MPD_OFFLINE', status);
                             }
                         });
                         break;

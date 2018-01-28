@@ -3,12 +3,12 @@
         "station": "ByteFM",
         "desc": "ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png",
-        "stream": "https://bytefm.sslcast.addradio.de/bytefm/main/mid/stream.mp3"
+        "stream": "https://bytefm.sslcast.addradio.de/bytefm/main/high/stream.mp3"
     },
     {   "id": 1, 
-        "station": "ByteFM",
-        "desc": "ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png",
-        "stream": "https://bytefm.sslcast.addradio.de/bytefm/main/mid/stream.mp3"
+        "station": "CKUT",
+        "desc": "CKUT is a non-profit, campus-community radio station based at McGill University",
+        "logo": "http://music.ckut.ca/wp-content/uploads/2012/01/ckut_logo-1024x625.jpg",
+        "stream": "http://stream.ckut.ca:8000/903fm-192-stereo"
     }
 ]

@@ -25,6 +25,10 @@ var app = new Vue({
         song: DefaultSongText,
         currentStation: null
     },
+    created: function () {
+        this.connectWSS();
+        this.updateElapsed();
+    },
     methods: {
         connectWSS: function() {
             var self = this;
@@ -45,9 +49,13 @@ var app = new Vue({
                         self.stationList = msg.data;
                         break;
                     case "STATUS":
+                        timer.lastDisplayTimestamp = 0;
                         self.setPlayState(msg.data.state);
                         self.setCurrentStation(msg.data.file);
                         self.setSongName(msg.data.title, msg.data.album, msg.data.artist);
+                        self.setElapsedTime(msg.data.elapsed);
+                        break;
+                    case "ELAPSED":
                         self.setElapsedTime(msg.data.elapsed);
                         break;
                 }
@@ -56,6 +64,33 @@ var app = new Vue({
             socket.onerror = socket.onclose = function(err) {
                 // console.log('close / error');
             };
+        },
+
+        onPlayButton: function(event) {
+            var self = this;
+            switch(self.status) {
+                case 'playing':
+                    self.status = 'loading';
+                    sendWSSMessage('PAUSE', null);
+                    break;
+                case 'stopped':
+                case 'paused':
+                    self.status = 'loading';
+                    sendWSSMessage('PLAY', null);
+                    break;
+                default:
+                    sendWSSMessage('REQUEST_STATUS', null);
+                    break;
+            }
+        },
+
+        onPlayStation: function(stream) {
+            var self = this;
+            self.status = 'loading';
+            self.currentStation = null;
+            self.elapsed = '0:00';
+            self.song = "";
+            sendWSSMessage('PLAY', { stream: stream });
         },
 
         updateElapsed: function() {
@@ -95,6 +130,10 @@ var app = new Vue({
             setTimeout(() => {
                 self.updateElapsed();
             }, timeout);
+
+            if(self.status === 'playing' && (Date.now() - timer.lastMpdUpdateTimestamp) > 10000) {
+                sendWSSMessage('REQUEST_ELAPSED', null);
+            }
         }, 
 
         setElapsedTime: function(elapsed) {
@@ -125,19 +164,24 @@ var app = new Vue({
 
         setCurrentStation: function(file) {
             var self = this;
+            var found = false;
             self.stationList.forEach(station => {
                 if(station.stream === file) {
+                    found = true;
                     // Don't do anything if the station did not chnage
-                    if(!self.currentStation || self.currentStation.stream !== file)
+                    if(!self.currentStation || self.currentStation.stream === file)
                         self.currentStation = station;
                     return;
                 }
             });
-            self.currentStation = null;
+            if(!found) {
+                self.song = DefaultSongText;
+                self.currentStation = null;
+            }
         },
 
         setSongName: function(title, album, artist) {
-            if(!title && !album && !artist) {
+            if(!title && !album && !artist && !this.currentStation) {
                 this.song = DefaultSongText;
             } else {
                 var text = '';
@@ -164,10 +208,6 @@ var app = new Vue({
             strToDisplay += (seconds < 10 ? '0' : '') + seconds;
             this.elapsed = strToDisplay;
         }
-    },
-    created: function () {
-        this.connectWSS();
-        this.updateElapsed();
     }
 })
 

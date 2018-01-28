@@ -70,6 +70,54 @@ function sendStatusRequest(callback) {
     });
 }
 
+function sendPlayStation(stream, callback) {
+    mpdClient.sendCommands([cmd("clear", []), cmd("repeat", [1]), cmd("add", [stream]), cmd("play", []) ], 
+        function(err, msg) {
+            if (err) {
+                console.error(err);
+            } else {
+                callback();
+            }
+    });
+}
+
+function sendElapsedRequest(callback) {
+    mpdClient.sendCommand(cmd("status", []), 
+        function(err, msg) {
+            if (err) {
+                console.error(err);
+            } else {
+                var data = mpd.parseKeyValueMessage(msg);
+                var elapsed = { elapsed: 0 };
+                for (const [key, value] of Object.entries(data)) {
+                    if(key.toLowerCase() === 'elapsed') {
+                        elapsed.elapsed = value;
+                        break;
+                    }
+                }
+                callback(elapsed);
+            }
+    });
+}
+
+function sendPlay(play, callback) {
+    var command = 'play';
+    var arg = [];
+    if(!play) {
+        command = 'pause';
+        arg = [1];
+    }
+
+    mpdClient.sendCommand(cmd(command, arg), 
+        function(err, msg) {
+            if (err) {
+                console.error(err);
+            } else {
+                callback();
+            }
+    });
+}
+
 var self = module.exports = {
 
     setup: function setup(options) {
@@ -86,6 +134,34 @@ var self = module.exports = {
             callback('Not connected');
         else
             sendStatusRequest((status) => { callback(null, status); });
-    }
+    },
 
+    getElapsed: function getElapsed(callback) {
+        if(mpdStatus !== Status.ready)
+            callback('Not connected');
+        else
+            sendElapsedRequest((status) => { callback(null, status); });
+    },
+
+    play: function play(callback) {
+        if(mpdStatus !== Status.ready)
+            callback('Not connected');
+        else
+            sendPlay(true, () => { callback(null); });
+    },
+
+    pause: function pause(callback) {
+        if(mpdStatus !== Status.ready)
+            callback('Not connected');
+        else
+            sendPlay(false, () => { callback(null); });
+    },
+
+    playStation: function playStation(stream, callback) {
+        debug('play ' + stream);
+        if(mpdStatus !== Status.ready)
+            callback('Not connected');
+        else
+            sendPlayStation(stream, () => { callback(null); });
+    },
 };
