@@ -192,7 +192,7 @@ var app = new Vue({
                 if(station.stream === file) {
                     found = true;
                     // Don't do anything if the station did not chnage
-                    if(!self.currentStation || self.currentStation.stream === file)
+                    if(!self.currentStation || self.currentStation.stream !== file)
                         self.currentStation = station;
                     return;
                 }
