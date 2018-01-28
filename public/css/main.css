@@ -18,6 +18,7 @@
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
+    width: 90%;
     max-width: 90%;
     padding: 5%;
 }

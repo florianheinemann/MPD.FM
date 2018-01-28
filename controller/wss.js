@@ -72,7 +72,7 @@ module.exports = {
                     case "REQUEST_STATUS":
                         mpdClient.getMpdStatus(function(err, status) {
                             if(err) {
-                                sendWSSMessage(ws, 'MPD_OFFLINE', status);
+                                sendWSSMessage(ws, 'MPD_OFFLINE', null);
                             } else {
                                 sendWSSMessage(ws, 'STATUS', status);
                             }
@@ -80,11 +80,11 @@ module.exports = {
                         break;
 
                     case "REQUEST_ELAPSED":
-                        mpdClient.getElapsed(function(err, status) {
+                        mpdClient.getElapsed(function(err, elapsed) {
                             if(err) {
-                                sendWSSMessage(ws, 'MPD_OFFLINE', status);
+                                sendWSSMessage(ws, 'MPD_OFFLINE', null);
                             } else {
-                                sendWSSMessage(ws, 'ELAPSED', status);
+                                sendWSSMessage(ws, 'ELAPSED', elapsed);
                             }
                         });
                         break;
@@ -93,13 +93,13 @@ module.exports = {
                         if(msg.data && msg.data.stream) {
                             mpdClient.playStation(msg.data.stream, function(err) {
                                 if(err) {
-                                    sendWSSMessage(ws, 'MPD_OFFLINE', status);
+                                    sendWSSMessage(ws, 'MPD_OFFLINE');
                                 }
                             });
                         } else {
                             mpdClient.play(function(err) {
                                 if(err) {
-                                    sendWSSMessage(ws, 'MPD_OFFLINE', status);
+                                    sendWSSMessage(ws, 'MPD_OFFLINE');
                                 }
                             });
                         }
@@ -108,7 +108,7 @@ module.exports = {
                     case "PAUSE":
                         mpdClient.pause(function(err) {
                             if(err) {
-                                sendWSSMessage(ws, 'MPD_OFFLINE', status);
+                                sendWSSMessage(ws, 'MPD_OFFLINE');
                             }
                         });
                         break;
