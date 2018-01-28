@@ -11,7 +11,10 @@ function sendWSSMessage(client, type, data, showDebug = true) {
         type: type,
         data: (data) ? data : {}
     }
-    client.send(JSON.stringify(msg));
+    client.send(JSON.stringify(msg), function(error) {
+        if(error)
+            debug('Failed to send data to client %o', error);
+    });
 }
 
 function broadcastMessage(server, type, data) {
