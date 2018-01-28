@@ -10,7 +10,21 @@ StandardError=syslog
 SyslogIdentifier=mpd-fm
 User=srv-mpd-fm
 Group=srv-mpd-fm
+
 Environment=NODE_ENV=production
+
+# Set to log detailed debug messages
+# Environment=DEBUG=mpd.fm:*
+
+# Details of MPD server (Default: localhost:6600)
+Environment=MPD_HOST=localhost
+Environment=MPD_PORT=6600
+
+# Port to serve HTTP (the user needs special permission to serve on 80; default: 4200)
+Environment=PORT=4200
+
+# JSON file with radio stations. If empty [app root]/data/stations.json will be used
+Environment=STATION_FILE=
 
 [Install]
 WantedBy=multi-user.target

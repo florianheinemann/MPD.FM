@@ -1,8 +1,12 @@
+"use strict";
 
-var stationList = require("../data/stations.json");
+var fs = require('fs');
+var path = require('path');
 var mpdClient = require("./mpdclient.js");
 var debug = require('debug')('mpd.fm:wss');
 const WebSocket = require('ws');
+
+var stationFile = process.env.STATION_FILE || path.join(__dirname, '../data/stations.json');
 
 function sendWSSMessage(client, type, data, showDebug = true) {
     data = objectToLowerCase(data);
@@ -50,7 +54,19 @@ module.exports = {
                 debug('Received %s with %o', msg.type, msg.data);
                 switch(msg.type) {
                     case "REQUEST_STATION_LIST":
-                        sendWSSMessage(ws, 'STATION_LIST', stationList);
+
+                        fs.readFile(stationFile, 'utf8', function (err, data) {
+                            if (err) {
+                                console.error('Can\'t read station file: "' + stationFile + '": ' + err);
+                                return;
+                            }
+                            try {
+                                var stationList = JSON.parse(data);
+                                sendWSSMessage(ws, 'STATION_LIST', stationList);
+                            } catch (error) {
+                                console.error('Can\'t interpret station file: "' + stationFile + '": ' + error);
+                            }
+                        });
                         break;
 
                     case "REQUEST_STATUS":

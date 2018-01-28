@@ -4,6 +4,8 @@
  * Module dependencies.
  */
 
+var fs = require('fs');
+var path = require('path');
 var app = require('../app');
 var debug = require('debug')('mpd.fm:server');
 var http = require('http');
@@ -15,8 +17,24 @@ var mpdClient = require('../controller/mpdclient.js');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '4200');
 app.set('port', port);
+
+/**
+ * Check if station file exists - if it is provided
+ */
+
+if(process.env.STATION_FILE) {
+  try {
+    fs.accessSync(process.env.STATION_FILE, fs.constants.R_OK);
+    console.log('Station file "' + process.env.STATION_FILE + '" will be used')
+  } catch (error) {
+    console.error('No access to station file: "' + process.env.STATION_FILE + '"');
+    process.exit(1);
+  }
+} else {
+  console.log('Station file "' + path.join(__dirname, '../data/stations.json') + '" will be used')
+}
 
 /**
  * Create HTTP server.
