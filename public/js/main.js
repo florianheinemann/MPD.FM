@@ -2,6 +2,8 @@
 
 var socket = null;
 const DefaultSongText = 'Select a station';
+const DefaultMpdErrorText = 'Trying to reconnect...';
+var lastMpdReconnectAttempt = 0;
 
 var timer = {
     // All in ms
@@ -23,7 +25,11 @@ var app = new Vue({
         status: 'loading', // playing, stopped, paused
         elapsed: '0:00',
         song: DefaultSongText,
-        currentStation: null
+        currentStation: null,
+        errorState: {
+            wssDisconnect: true,
+            mpdServerDisconnect: true 
+        }
     },
     created: function () {
         this.connectWSS();
@@ -38,11 +44,13 @@ var app = new Vue({
             socket = new ReconnectingWebSocket(url, null, {reconnectInterval: 3000});
 
             socket.onopen = function () {
-                sendWSSMessage('REQUEST_STATION_LIST', null);
-                sendWSSMessage('REQUEST_STATUS', null);
+                self.errorState.wssDisconnect = false;
+                self.sendWSSMessage('REQUEST_STATION_LIST', null);
+                self.sendWSSMessage('REQUEST_STATUS', null);
             };
 
             socket.onmessage = function (message) {
+                self.errorState.wssDisconnect = false;
                 var msg = JSON.parse(message.data);
                 switch(msg.type) {
                     case "STATION_LIST":
@@ -58,11 +66,26 @@ var app = new Vue({
                     case "ELAPSED":
                         self.setElapsedTime(msg.data.elapsed);
                         break;
+                    case "MPD_OFFLINE":
+                        self.status = 'loading';
+                        self.currentStation = null;
+                        self.elapsed = '0:00';
+                        self.song = DefaultMpdErrorText;
+                        self.errorState.mpdServerDisconnect = true;
+                        setTimeout(() => {
+                            if((Date.now()-lastMpdReconnectAttempt) >= 2500) {
+                                lastMpdReconnectAttempt = Date.now();
+                                self.sendWSSMessage('REQUEST_STATUS', null);
+                            }
+                        }, 3000);
+                        return;
                 }
+
+                self.errorState.mpdServerDisconnect = false;
             };
 
             socket.onerror = socket.onclose = function(err) {
-                // console.log('close / error');
+                self.errorState.wssDisconnect = true;
             };
         },
 
@@ -71,15 +94,15 @@ var app = new Vue({
             switch(self.status) {
                 case 'playing':
                     self.status = 'loading';
-                    sendWSSMessage('PAUSE', null);
+                    self.sendWSSMessage('PAUSE', null);
                     break;
                 case 'stopped':
                 case 'paused':
                     self.status = 'loading';
-                    sendWSSMessage('PLAY', null);
+                    self.sendWSSMessage('PLAY', null);
                     break;
                 default:
-                    sendWSSMessage('REQUEST_STATUS', null);
+                    self.sendWSSMessage('REQUEST_STATUS', null);
                     break;
             }
         },
@@ -90,7 +113,7 @@ var app = new Vue({
             self.currentStation = null;
             self.elapsed = '0:00';
             self.song = "";
-            sendWSSMessage('PLAY', { stream: stream });
+            self.sendWSSMessage('PLAY', { stream: stream });
         },
 
         updateElapsed: function() {
@@ -132,7 +155,7 @@ var app = new Vue({
             }, timeout);
 
             if(self.status === 'playing' && (Date.now() - timer.lastMpdUpdateTimestamp) > 10000) {
-                sendWSSMessage('REQUEST_ELAPSED', null);
+                self.sendWSSMessage('REQUEST_ELAPSED', null);
             }
         }, 
 
@@ -207,14 +230,19 @@ var app = new Vue({
             strToDisplay += (hours > 0 && minutes < 10) ? ('0' + minutes + ':') : (minutes + ':');
             strToDisplay += (seconds < 10 ? '0' : '') + seconds;
             this.elapsed = strToDisplay;
+        },
+
+        sendWSSMessage: function(type, data) {
+            var self = this;
+            var msg = {
+                type: type,
+                data: (data) ? data : {}
+            }
+            try {
+                socket.send(JSON.stringify(msg));
+            } catch (error) {
+                self.errorState.wssDisconnect = true;
+            }
         }
     }
 })
-
-function sendWSSMessage(type, data) {
-    var msg = {
-        type: type,
-        data: (data) ? data : {}
-    }
-    socket.send(JSON.stringify(msg));
-}

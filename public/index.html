@@ -19,6 +19,15 @@
             <!--[if lte IE 9]>
                 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
             <![endif]-->
+
+            <div class="error-message" v-if="errorState.wssDisconnect || errorState.mpdServerDisconnect">
+                <div class="pure-g error-content">
+                        <div class="pure-u-1 l-box">
+                            <p v-if="errorState.wssDisconnect" class="error-heading">Can't reach server - trying to reconnect...</p>
+                            <p v-else-if="errorState.mpdServerDisconnect" class="error-heading">The server can't reach MPD - trying to reconnect...</p>
+                        </div>
+                </div>
+            </div>
             
             <div class="content">
 

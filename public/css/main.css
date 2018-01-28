@@ -84,6 +84,12 @@
     font-weight: 500;
 }
 
+.error-heading {
+    font-weight: 500;
+    text-align: center;
+    margin: 0px 0px;
+}
+
 .sep-line {
     margin: 5px 0px;
     height: 1px;
@@ -107,6 +113,24 @@
 }
 
 .player-content {
+    max-width: 768px;
+    margin: 5px auto;
+}
+
+.error-message {
+    background-color: rgb(230, 51, 51);
+    color: white;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding-right: 1em;
+    padding-left: 1em;
+    margin: 0 0.5em;
+    z-index: 100;
+}
+
+.error-content {
     max-width: 768px;
     margin: 5px auto;
 }
