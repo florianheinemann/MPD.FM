@@ -32,7 +32,9 @@ function broadcastMessage(server, type, data) {
 }
 
 function objectToLowerCase(data) {
-    if(Array.isArray(data)) {
+    if(!data) {
+        return data;
+    } else if(Array.isArray(data)) {
         return data.map(value => objectToLowerCase(value));
     } else if(typeof data === 'object') {
         var retData = {};
