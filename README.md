@@ -54,6 +54,26 @@ systemctl start MPD.FM
 systemctl status MPD.FM
 ```
 
+To update MPD.FM just do the following as root:
+```
+# Sign into the dedicated user
+su srv-mpd-fm
+cd /home/srv-mpd-fm/MPD.FM
+
+# Update
+git pull
+npm install
+
+# Back to root
+exit
+
+# Restart MPD.FM
+systemctl restart MPD.FM
+
+# Check status
+systemctl status MPD.FM
+```
+
 ## Configuration
 - Envs
 - Station list
