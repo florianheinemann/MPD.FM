@@ -5,6 +5,7 @@ A MPD web server and client to listen to your favorite online radio stations. It
 - Allows quick switching between your favorite radio stations
 - Simple and nicely designed
 - Responsive web client - ready for your phone
+- Designed to be served as homescreen app on iOS ("Add to homescreen")
 
 <img src="https://raw.githubusercontent.com/florianheinemann/florianheinemann.github.io/master/MPD.FM.png" width=300>
 
