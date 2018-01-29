@@ -5,7 +5,7 @@ A MPD web server and client to listen to your favorite online radio stations. It
 - Allows quick switching between your favorite radio stations
 - Simple and nicely designed
 - Responsive web client - ready for your phone
-- Designed to be served as homescreen app on iOS ("Add to homescreen")
+- Designed to be served as home screen app on iOS ("Add to homescreen")
 
 <img src="https://raw.githubusercontent.com/florianheinemann/florianheinemann.github.io/master/MPD.FM.png" width=300>
 
@@ -74,6 +74,11 @@ systemctl restart MPD.FM
 # Check status
 systemctl status MPD.FM
 ```
+
+## Play!
+- Point your browser to \[IP of your server\]:4200 (e.g., http://192.168.1.2:4200)
+- On iOS you can display MPD.FM app-like by pressing **Share / Add to Home Screen** in Safari
+- Several clients can use MPD.FM simultaneously
 
 ## Configuration
 ### Basic settings
