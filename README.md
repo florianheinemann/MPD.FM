@@ -16,6 +16,7 @@ MPD.fm has been tested on [Raspbian](https://www.raspberrypi.org/downloads/raspb
 
 ## Installation
 ### Raspbian
+Do the following as root:
 ```
 # Install MPD if not yet done - configure as needed
 # MPD.FM typically works with an out-of-the-box MPD
@@ -34,5 +35,25 @@ cd /home/srv-mpd-fm
 
 # Download MPD.fm using Git
 git clone https://github.com/florianheinemann/MPD.FM.git
+
+# Install dependencies
+cd MPD.FM
+npm install
+
+# Back to root
+exit
+
+# Copy systemd service file
+cp /home/srv-mpd-fm/MPD.FM/service/MPD.FM.service /etc/systemd/system/
+
+# Ensure MPD.FM starts with boot and run
+systemctl enable MPD.FM
+systemctl start MPD.FM
+
+# Check status
+systemctl status MPD.FM
 ```
 
+## Configuration
+- Envs
+- Station list
