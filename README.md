@@ -17,8 +17,12 @@ MPD.fm has been tested on [Raspbian](https://www.raspberrypi.org/downloads/raspb
 
 ## Installation
 ### Raspbian
-Do the following as root:
+Do the following as **root**:
 ```
+# Install Node.js if not yet done
+# E.g., by following Richard Stanley's script: https://github.com/audstanley/NodeJs-Raspberry-Pi
+wget -O - https://raw.githubusercontent.com/audstanley/NodeJs-Raspberry-Pi/master/Install-Node.sh | bash;
+
 # Install MPD if not yet done - configure as needed
 # MPD.FM typically works with an out-of-the-box MPD
 apt-get update
