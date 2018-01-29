@@ -77,7 +77,7 @@ systemctl status MPD.FM
 
 ## Play!
 - Point your browser to \[IP of your server\]:4200 (e.g., http://192.168.1.2:4200)
-- On iOS you can display MPD.FM app-like by pressing **Share / Add to Home Screen** in Safari
+- On iOS you can display MPD.FM app-like by pressing *Share / Add to Home Screen* in Safari
 - Several clients can use MPD.FM simultaneously
 
 ## Configuration
@@ -109,8 +109,8 @@ Environment=STATION_FILE=
 } 
 ```
 
-- *id* - A unique identifier of the station (easiest is to simply number them 1, 2, 3, ...
-- *station* - Name of the station that should be displayed
-- *desc* - Short description of the station (optional)
-- *logo* - URL to a logo of the station (any size)
-- *stream* - URL to the stream of the radio station (in a format supported by MPD such as MP3, OGG, ...)
+- **id** - A unique identifier of the station (easiest is to simply number them 1, 2, 3, ...
+- **station** - Name of the station that should be displayed
+- **desc** - Short description of the station (optional)
+- **logo** - URL to a logo of the station (any size)
+- **stream** - URL to the stream of the radio station (in a format supported by MPD such as MP3, OGG, ...)
