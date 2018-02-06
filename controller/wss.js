@@ -64,6 +64,8 @@ module.exports = {
                             }
                             try {
                                 var stationList = JSON.parse(data);
+                                if(!Array.isArray(stationList))
+                                    throw 'Station list is not an array';
                                 sendWSSMessage(ws, 'STATION_LIST', stationList);
                             } catch (error) {
                                 console.error('Can\'t interpret station file: "' + stationFile + '": ' + error);

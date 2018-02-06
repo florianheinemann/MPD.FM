@@ -26,6 +26,7 @@ var app = new Vue({
         elapsed: '0:00',
         song: DefaultSongText,
         currentStation: null,
+        currentFile: null,
         errorState: {
             wssDisconnect: true,
             mpdServerDisconnect: true 
@@ -55,6 +56,8 @@ var app = new Vue({
                 switch(msg.type) {
                     case "STATION_LIST":
                         self.stationList = msg.data;
+                        if(!self.currentStation && self.currentFile)
+                            self.setCurrentStation(self.currentFile);
                         break;
                     case "STATUS":
                         timer.lastDisplayTimestamp = 0;
@@ -69,6 +72,7 @@ var app = new Vue({
                     case "MPD_OFFLINE":
                         self.status = 'loading';
                         self.currentStation = null;
+                        self.currentFile = null;
                         self.elapsed = '0:00';
                         self.song = DefaultMpdErrorText;
                         self.errorState.mpdServerDisconnect = true;
@@ -188,6 +192,7 @@ var app = new Vue({
         setCurrentStation: function(file) {
             var self = this;
             var found = false;
+            self.currentFile = file;
             self.stationList.forEach(station => {
                 if(station.stream === file) {
                     found = true;
