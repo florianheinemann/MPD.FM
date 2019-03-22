@@ -118,3 +118,6 @@ Environment=STATION_FILE=
 - **desc** - Short description of the station (optional)
 - **logo** - URL to a logo of the station (any size)
 - **stream** - URL to the stream of the radio station (in a format supported by MPD such as MP3, OGG, ...)
+
+
+Great work from florianheinemann. Added Volume control. As I haven't worked with web development at all this is probably a nasty solution. All of you gurus are welcome to contribute. I you want to install on Centos7 with old node.js versions change the MPD.FM.service line 6 to ExecStart=/usr/bin/node --harmony /home/srv-mpd-fm/MPD.FM/bin/www
