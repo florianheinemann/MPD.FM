@@ -107,6 +107,18 @@ function sendPlayStation(stream, callback) {
     });
 }
 
+function sendchangeVolume(volref, callback) {
+    sendCommands(cmd("setvol", [volref]),
+//    sendCommands(cmd("setvol", [75]), 
+        function(err, msg) {
+            if (err) {
+                callback(err);
+            } else {
+                callback();
+            }
+    });
+}
+
 function sendElapsedRequest(callback) {
     sendCommands(cmd("status", []), 
         function(err, msg) {
@@ -122,6 +134,25 @@ function sendElapsedRequest(callback) {
                     }
                 }
                 callback(null, elapsed);
+            }
+    });
+}
+
+function sendVolumeRequest(callback) {
+    sendCommands(cmd("status", []), 
+        function(err, msg) {
+            if (err) {
+                callback(err);
+            } else {
+                var data = mpd.parseKeyValueMessage(msg);
+                var volume = { volume: 0 };
+                for (const [key, value] of Object.entries(data)) {
+                    if(key.toLowerCase() === 'volume') {
+                        volume.volume = value;
+                        break;
+                    }
+                }
+                callback(null, volume);
             }
     });
 }
@@ -144,6 +175,21 @@ function sendPlay(play, callback) {
     });
 }
 
+//function sendsetVolume(callback) {
+//    var command = 'setvol';
+//    arg = [1];
+//    }
+//
+//    sendCommands(cmd(command, arg), 
+//        function(err, msg) {
+//            if (err) {
+//                callback(err);
+//            } else {
+//                callback(null);
+//            }
+//    });
+//}
+
 var self = module.exports = {
 
     setup: function setup(options) {
@@ -163,6 +209,10 @@ var self = module.exports = {
         sendElapsedRequest(callback);
     },
 
+    getVolume: function getVolume(callback) {
+        sendVolumeRequest(callback);
+    },
+
     play: function play(callback) {
         sendPlay(true, callback);
     },
@@ -174,5 +224,12 @@ var self = module.exports = {
     playStation: function playStation(stream, callback) {
         debug('play ' + stream);
         sendPlayStation(stream, callback);
+    },
+    
+    changeVolume: function changeVolume(volref, callback) {
+ //       volref = [98];
+ //       console.log (volref);
+        debug('setvol ' + volref);
+        sendchangeVolume(volref, callback);
     },
 };
