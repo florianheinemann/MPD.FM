@@ -1,129 +1,209 @@
-"use strict";
-
-var fs = require('fs');
-var path = require('path');
-var mpdClient = require("./mpdclient.js");
-var debug = require('debug')('mpd.fm:wss');
-const WebSocket = require('ws');
-
-var stationFile = process.env.STATION_FILE || path.join(__dirname, '../data/stations.json');
-
-function sendWSSMessage(client, type, data, showDebug = true) {
-    data = objectToLowerCase(data);
-    showDebug && debug('Send: ' + type + ' with %o', data);
-    var msg = {
-        type: type,
-        data: (data) ? data : {}
-    }
-    client.send(JSON.stringify(msg), function(error) {
-        if(error)
-            debug('Failed to send data to client %o', error);
-    });
+.station-logo {
+    position:relative;
+    overflow:hidden;
+    padding-bottom:100%;
+    border: 1px solid rgb(201, 201, 201);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    background-color: white;
 }
 
-function broadcastMessage(server, type, data) {
-    data = objectToLowerCase(data);
-    debug('Broadcast: ' + type + ' with %o', data);
-    server.clients.forEach(function each(client) {
-        if (client.readyState === WebSocket.OPEN) {
-            sendWSSMessage(client, type, data, false);
-        }
-    });
+.blank-radio {
+   visibility: hidden;
 }
 
-function objectToLowerCase(data) {
-    if(!data) {
-        return data;
-    } else if(Array.isArray(data)) {
-        return data.map(value => objectToLowerCase(value));
-    } else if(typeof data === 'object') {
-        var retData = {};
-        for (const [key, value] of Object.entries(data)) {
-            retData[key.toLowerCase()] = objectToLowerCase(value);
-        }
-        return retData;
-    } else {
-        return data;
-    }
+.station-logo > img, .station-logo > div {
+    position:absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    width: 90%;
+    max-width: 90%;
+    padding: 5%;
 }
 
-module.exports = {
-    init: function(wss) {
-        wss.on('connection', function connection(ws, req) {
-            ws.on('message', function incoming(message) {
+.active-station {
+    opacity: 0.5;
+}
 
-                var msg = JSON.parse(message);
-                debug('Received %s with %o', msg.type, msg.data);
-                switch(msg.type) {
-                    case "REQUEST_STATION_LIST":
+.play-button {
+    opacity: 0.8;
+}
 
-                        fs.readFile(stationFile, 'utf8', function (err, data) {
-                            if (err) {
-                                console.error('Can\'t read station file: "' + stationFile + '": ' + err);
-                                return;
-                            }
-                            try {
-                                var stationList = JSON.parse(data);
-                                if(!Array.isArray(stationList))
-                                    throw 'Station list is not an array';
-                                sendWSSMessage(ws, 'STATION_LIST', stationList);
-                            } catch (error) {
-                                console.error('Can\'t interpret station file: "' + stationFile + '": ' + error);
-                            }
-                        });
-                        break;
+.spinner {
+    text-align: center;
+}
 
-                    case "REQUEST_STATUS":
-                        mpdClient.getMpdStatus(function(err, status) {
-                            if(err) {
-                                sendWSSMessage(ws, 'MPD_OFFLINE', null);
-                            } else {
-                                sendWSSMessage(ws, 'STATUS', status);
-                            }
-                        });
-                        break;
+.spinner-frame {
+    width: 100%;
+    text-align: center;
+}
 
-                    case "REQUEST_ELAPSED":
-                        mpdClient.getElapsed(function(err, elapsed) {
-                            if(err) {
-                                sendWSSMessage(ws, 'MPD_OFFLINE', null);
-                            } else {
-                                sendWSSMessage(ws, 'ELAPSED', elapsed);
-                            }
-                        });
-                        break;
+.spinner > div {
+    width: 30%;
+    padding-bottom: 30%;
+    background-color: #333;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
 
-                    case "PLAY":
-                        if(msg.data && msg.data.stream) {
-                            mpdClient.playStation(msg.data.stream, function(err) {
-                                if(err) {
-                                    sendWSSMessage(ws, 'MPD_OFFLINE');
-                                }
-                            });
-                        } else {
-                            mpdClient.play(function(err) {
-                                if(err) {
-                                    sendWSSMessage(ws, 'MPD_OFFLINE');
-                                }
-                            });
-                        }
-                        break;
+.spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
 
-                    case "PAUSE":
-                        mpdClient.pause(function(err) {
-                            if(err) {
-                                sendWSSMessage(ws, 'MPD_OFFLINE');
-                            }
-                        });
-                        break;
-                }
+.spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+@-webkit-keyframes sk-bouncedelay {
+    0%, 80%, 100% { -webkit-transform: scale(0) }
+    40% { -webkit-transform: scale(1.0) }
+}
+@keyframes sk-bouncedelay {
+    0%, 80%, 100% { -webkit-transform: scale(0); transform: scale(0); }
+    40% { -webkit-transform: scale(1.0); transform: scale(1.0); }
+}
 
-            });
+.station-text {
+    display: flex;
+}
 
-        });
+.station-text-inside {
+    margin-bottom: auto;
+    margin-top: auto;
+}
 
-        mpdClient.onStatusChange(function(status) {
-            broadcastMessage(wss, 'STATUS', status);                       
-        });
-    }
-};
+.station-text-inside > p {
+    margin: 0;
+}
+
+.station-heading {
+    font-weight: 500;
+}
+
+.error-heading {
+    font-weight: 500;
+    text-align: center;
+    margin: 0px 0px;
+}
+
+.sep-line {
+    margin: 5px 0px;
+    height: 1px;
+    border: medium none;
+    background-color: rgb(201, 201, 201);
+}
+
+.sep-line:last-of-type {
+    visibility: hidden;
+}
+
+.player {
+    background-color: black;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+.player-content {
+    max-width: 768px;
+    margin: 5px auto;
+}
+
+.player-header {
+    max-width: 768px;
+    margin: 5px auto;
+}
+
+.error-message {
+    background-color: rgb(230, 51, 51);
+    color: white;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding-right: 1em;
+    padding-left: 1em;
+    margin: 0 0.5em;
+    z-index: 100;
+}
+
+.error-content {
+    max-width: 768px;
+    margin: 5px auto;
+}
+
+.content {
+    margin: 5px auto;
+    padding-left: 1em;
+    padding-right: 1em;
+    max-width: 768px;
+}
+
+.pure-g > div {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.l-box {
+    padding: 0.5em;
+}
+
+html, button, input, select, textarea,
+.pure-g [class *= "pure-u"] {
+    /* color: #777; */
+    font-size: 0.9em;
+    line-height: 1.5;
+    font-family: 'Oswald', sans-serif;
+}
+
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 2px;
+/*  height: 15px; */
+  border-radius: 5px;   
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */ 
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
