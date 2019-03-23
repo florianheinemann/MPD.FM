@@ -67,7 +67,13 @@
             </div>
 
             <div class="player">
+                <div class="pure-g player-header">
+        	  	   <div class="slidecontainer">
+ 										<input type="range" min="0" max="100" v-model="sliderValue" @input="changeVolume" class="slider" id="myRange">
+ 							   </div>
+								</div>
                 <div class="pure-g player-content">
+                	
                         <div class="pure-u-1-4 l-box" v-on:click="onPlayButton">
                             <div class="station-logo">
 
@@ -88,12 +94,13 @@
                             <div class="station-text-inside">
                                 <p class="station-heading">{{ elapsed }}</p>
                                 <p>{{ song }}</p>
-                            </div>
+                                <p>Volume: {{ storedsliderValue }}</p>
+                           	</div>
                         </div>
                 </div>
+              
             </div>
-            
-            <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	          <script src="https://cdn.jsdelivr.net/npm/vue"></script>
             <script src="js/plugins.js"></script>
             <script src="js/vendor/ReconnectingWebSocket.js"></script>
             <script src="js/main.js"></script>

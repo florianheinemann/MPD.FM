@@ -93,6 +93,14 @@ module.exports = {
                         });
                         break;
 
+                    case "CHANGEVOL":
+                        mpdClient.changeVolume(msg.data.volref, function(err) {
+                            if(err) {
+                                sendWSSMessage(ws, 'MPD_OFFLINE');
+                            }
+                        });
+                        break;
+
                     case "PLAY":
                         if(msg.data && msg.data.stream) {
                             mpdClient.playStation(msg.data.stream, function(err) {
