@@ -175,21 +175,6 @@ function sendPlay(play, callback) {
     });
 }
 
-//function sendsetVolume(callback) {
-//    var command = 'setvol';
-//    arg = [1];
-//    }
-//
-//    sendCommands(cmd(command, arg), 
-//        function(err, msg) {
-//            if (err) {
-//                callback(err);
-//            } else {
-//                callback(null);
-//            }
-//    });
-//}
-
 var self = module.exports = {
 
     setup: function setup(options) {
