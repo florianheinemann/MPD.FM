@@ -227,8 +227,6 @@ var self = module.exports = {
     },
     
     changeVolume: function changeVolume(volref, callback) {
- //       volref = [98];
- //       console.log (volref);
         debug('setvol ' + volref);
         sendchangeVolume(volref, callback);
     },
