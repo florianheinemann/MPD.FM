@@ -4,6 +4,7 @@ var socket = null;
 const DefaultSongText = 'Select a station';
 const DefaultMpdErrorText = 'Trying to reconnect...';
 var lastMpdReconnectAttempt = 0;
+//var slider = document.getElementById("myRange");
 
 var timer = {
     // All in ms
@@ -24,6 +25,10 @@ var app = new Vue({
         stationList: [ ],
         status: 'loading', // playing, stopped, paused
         elapsed: '0:00',
+        volume: 0,
+        volref: 0,
+        sliderValue: 0,
+        storedsliderValue: 0,
         song: DefaultSongText,
         currentStation: null,
         currentFile: null,
@@ -35,6 +40,7 @@ var app = new Vue({
     created: function () {
         this.connectWSS();
         this.updateElapsed();
+//        this.updateVolume();
     },
     methods: {
         connectWSS: function() {
@@ -65,6 +71,9 @@ var app = new Vue({
                         self.setCurrentStation(msg.data.file);
                         self.setSongName(msg.data.title, msg.data.album, msg.data.artist);
                         self.setElapsedTime(msg.data.elapsed);
+                        self.setVolume(msg.data.volume);
+//                        self.changeVolume();
+                        
                         break;
                     case "ELAPSED":
                         self.setElapsedTime(msg.data.elapsed);
@@ -74,6 +83,7 @@ var app = new Vue({
                         self.currentStation = null;
                         self.currentFile = null;
                         self.elapsed = '0:00';
+                        self.volume = '0';
                         self.song = DefaultMpdErrorText;
                         self.errorState.mpdServerDisconnect = true;
                         setTimeout(() => {
@@ -116,8 +126,17 @@ var app = new Vue({
             self.status = 'loading';
             self.currentStation = null;
             self.elapsed = '0:00';
+            self.volume = '0';
             self.song = "";
             self.sendWSSMessage('PLAY', { stream: stream });
+        },
+
+        changeVolume: function(volref) {
+            var self = this;
+         		volref = this.sliderValue;
+        		self.storedsliderValue = this.sliderValue;
+            self.sendWSSMessage('CHANGEVOL', { volref });
+//            self.sendWSSMessage('PAUSE', null);
         },
 
         updateElapsed: function() {
@@ -159,7 +178,8 @@ var app = new Vue({
             }, timeout);
 
             if(self.status === 'playing' && (Date.now() - timer.lastMpdUpdateTimestamp) > 10000) {
-                self.sendWSSMessage('REQUEST_ELAPSED', null);
+           //   self.sendWSSMessage('REQUEST_ELAPSED', null);
+                self.sendWSSMessage('REQUEST_STATUS', null);
             }
         }, 
 
@@ -170,6 +190,13 @@ var app = new Vue({
                 timer.mpdLastUpdate = 0;
             }
             timer.lastMpdUpdateTimestamp = Date.now();
+        },
+
+        setVolume: function(volume) {
+            this.volume = volume;
+            this.sliderValue = volume;
+            this.storedsliderValue = volume;
+
         },
 
         setPlayState: function(state) {
