@@ -1,5 +1,7 @@
 "use strict";
 
+const { createApp } = Vue
+
 var socket = null;
 const DefaultSongText = 'Select a station';
 const DefaultMpdErrorText = 'Trying to reconnect...';
@@ -14,22 +16,19 @@ var timer = {
     lastDisplayTimestamp: 0
 };
 
-Vue.component('radio-station', {
-    props: ['station']
-})  
-
-var app = new Vue({
-    el: '#app',
-    data: {
-        stationList: [ ],
-        status: 'loading', // playing, stopped, paused
-        elapsed: '0:00',
-        song: DefaultSongText,
-        currentStation: null,
-        currentFile: null,
-        errorState: {
-            wssDisconnect: true,
-            mpdServerDisconnect: true 
+const app = createApp({
+    data() {
+        return {
+            stationList: [ ],
+            status: 'loading', // playing, stopped, paused
+            elapsed: '0:00',
+            song: DefaultSongText,
+            currentStation: null,
+            currentFile: null,
+            errorState: {
+                wssDisconnect: true,
+                mpdServerDisconnect: true 
+            }
         }
     },
     created: function () {
@@ -251,3 +250,28 @@ var app = new Vue({
         }
     }
 })
+
+app.component('radio-station', {
+    template: `
+        <div>
+            <div class="pure-g" v-on:click="$emit('on-play-station', station.stream)">
+                <div class="pure-u-1-4 l-box">
+                    <div class="station-logo">
+                        <img class="pure-img" v-bind:src="station.logo" v-bind:alt="station.station">
+                    </div>
+                </div>
+                <div class="pure-u-3-4 l-box station-text">
+                    <div class="station-text-inside">
+                        <p class="station-heading">{{ station.station }}</p>
+                        <p>{{ station.desc }}</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="sep-line">
+        </div>
+    `,
+    props: ['station'],
+    emits: ['on-play-station']
+})
+
+app.mount('#app')
