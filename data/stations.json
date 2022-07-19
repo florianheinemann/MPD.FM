@@ -3,13 +3,13 @@
         "station": "ByteFM",
         "desc": "ByteFM ist moderiertes Musikprogramm, fernab vom Mainstream",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/ByteFM.svg/1200px-ByteFM.svg.png",
-        "stream": "https://bytefm.sslcast.addradio.de/bytefm/main/high/stream.mp3"
+        "stream": "https://bytefm--di--nacs-ice-01--01--cdn.cast.addradio.de/bytefm/main/mid/stream.mp3"
     },
     {   "id": 1, 
-        "station": "Berlin Community Radio",
-        "desc": "BCR is a broadcasting platform presenting everything that is influencing Berlin",
-        "logo": "http://www.berlincommunityradio.com/sites/all/themes/bcr_bootstrap/images/logospot.png",
-        "stream": "http://berlincommunityradio.out.airtime.pro:8000/berlincommunityradio_a"
+        "station": "Radio 10",
+        "desc": "Radio 10 is one of the oldest commercial radio stations of the Netherlands.",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Radio_10_logo_2019.svg/1024px-Radio_10_logo_2019.svg.png",
+        "stream": "http://playerservices.streamtheworld.com/api/livestream-redirect/RADIO10.mp3"
     },
     {   "id": 2, 
         "station": "KCRW",
@@ -21,7 +21,6 @@
         "station": "CKUT",
         "desc": "CKUT is a non-profit, campus-community radio station based at McGill University",
         "logo": "http://music.ckut.ca/wp-content/uploads/2012/01/ckut_logo-1024x625.jpg",
-        "stream": "http://stream.ckut.ca:8000/903fm-192-stereo"
+        "stream": "https://ckut.out.airtime.pro/ckut_a"
     }
 ]
-
