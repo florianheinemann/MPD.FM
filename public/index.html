@@ -8,8 +8,10 @@
         <title>MPD.FM</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="manifest" href="site.webmanifest">
-        <link rel="apple-touch-icon" href="icon.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
 
         <link href="https://fonts.googleapis.com/css?family=Oswald:400,500&amp;subset=latin-ext" rel="stylesheet">
 
@@ -34,24 +36,10 @@
             <div class="content">
 
                 <radio-station 
-                    inline-template
-                    v-for="item in stationList"
-                    v-bind:station="item"
-                    v-bind:key="item.id">
-                    <div class="pure-g" v-on:click="onPlayStation(item.stream)">
-                        <div class="pure-u-1-4 l-box">
-                            <div class="station-logo">
-                                <img class="pure-img" v-bind:src="item.logo" v-bind:alt="item.station">
-                            </div>
-                        </div>
-                        <div class="pure-u-3-4 l-box station-text">
-                            <div class="station-text-inside">
-                                <p class="station-heading">{{ item.station }}</p>
-                                <p>{{ item.desc }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="sep-line">
+                    v-for="station in stationList"
+                    v-bind:station="station"
+                    v-bind:key="station.id"
+                    @on-play-station="onPlayStation">
                 </radio-station>
 
                 <div class="pure-g blank-radio">
@@ -92,11 +80,11 @@
                         </div>
                 </div>
             </div>
-            
-            <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-            <script src="js/plugins.js"></script>
-            <script src="js/vendor/ReconnectingWebSocket.js"></script>
-            <script src="js/main.js"></script>
         </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/vendor/ReconnectingWebSocket.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>
